@@ -4,11 +4,11 @@
     let searchedForText;
     const responseContainer = document.querySelector('#response-container');
 
-    function addImage() {
+    function addImage(res) {
         const figure = document.createElement('figure');
         const img = document.createElement('img');
         const figcaption = document.createElement('figcaption');
-        const data = JSON.parse(this.response);
+        const data = res;
 
 
         console.log(data.results[0]);
@@ -24,13 +24,15 @@
         responseContainer.innerHTML = '';
         searchedForText = searchField.value;
 
-        const xhr = new XMLHttpRequest();
+        $.ajax({
+            url: `https://api.unsplash.com/search/photos?page=1&query=${searchedForText}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': 'Client-ID 1067c16bd4533194c80be19cb6382f26c98eaeb51c96ba1d92bc0a22a845fef5'
+            },
+            success: addImage
+        }).done();
 
-        xhr.open('GET', `https://api.unsplash.com/search/photos?page=1&query=${searchedForText}`);
-        xhr.setRequestHeader('Content-Type', "application/json");
-        xhr.setRequestHeader('Authorization', 'Client-ID 1067c16bd4533194c80be19cb6382f26c98eaeb51c96ba1d92bc0a22a845fef5');
-        xhr.onload = addImage;
-
-        xhr.send();
     });
 })();
