@@ -24,15 +24,24 @@
         responseContainer.innerHTML = '';
         searchedForText = searchField.value;
 
-        $.ajax({
-            url: `https://api.unsplash.com/search/photos?page=1&query=${searchedForText}`,
-            method: 'GET',
+        fetch(`https://api.unsplash.com/search/photos?page=1&query=${searchedForText}`, {
             headers: {
-                'Content-Type': "application/json",
-                'Authorization': 'Client-ID 1067c16bd4533194c80be19cb6382f26c98eaeb51c96ba1d92bc0a22a845fef5'
-            },
-            success: addImage
-        }).done();
+                'Content-Type': 'application/json',
+                Authorization: 'Client-ID 1067c16bd4533194c80be19cb6382f26c98eaeb51c96ba1d92bc0a22a845fef5'
+            }
+        }).then(function(res) {
+            return res.json()
+        }).then(addImage);
+
+        // $.ajax({
+        //     url: `https://api.unsplash.com/search/photos?page=1&query=${searchedForText}`,
+        //     method: 'GET',
+        //     headers: {
+        //         'Content-Type': "application/json",
+        //         'Authorization': 'Client-ID 1067c16bd4533194c80be19cb6382f26c98eaeb51c96ba1d92bc0a22a845fef5'
+        //     },
+        //     success: addImage
+        // }).done();
 
     });
 })();
