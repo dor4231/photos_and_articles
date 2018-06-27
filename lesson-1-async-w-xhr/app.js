@@ -19,6 +19,11 @@
         responseContainer.appendChild(figure);
     }
 
+    function requestError(e, part) {
+        console.log(e);
+        responseContainer.insertAdjacentHTML('beforeend', `<p class="network-warning">Oh no! There was an error making a request for the ${part}.</p>`);
+    }
+
     form.addEventListener('submit', function (e) {
         e.preventDefault();
         responseContainer.innerHTML = '';
@@ -30,7 +35,8 @@
             }
         })
             .then(res => res.json())
-            .then(addImage);
+            .then(addImage)
+            .catch(e => requestError(e, 'image'));
 
     });
 })();
